@@ -5,9 +5,8 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )
-import asyncio
-import re
 import os
+import re
 
 TOKEN = os.getenv("TOKEN")
 utenti_in_attesa = {}
