@@ -4,7 +4,7 @@ import asyncio
 import re
 import os
 
-TOKEN = os.getenv("TOKEN")  # 🔐 Token da variabile d'ambiente
+TOKEN = os.getenv("TOKEN")  # Il token viene preso dalle variabili ambiente di Render
 
 utenti_in_attesa = {}
 
@@ -42,7 +42,8 @@ async def main():
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, nuovo_utente))
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), ricevi_tag))
-    print("Bot in esecuzione.")
+
+    print("✅ Bot in esecuzione.")
     await app.run_polling()
 
 if __name__ == '__main__':
