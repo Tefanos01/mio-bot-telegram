@@ -1,15 +1,20 @@
 from telegram import Update
-from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
+from telegram.ext import (
+    ApplicationBuilder,
+    MessageHandler,
+    filters,
+    ContextTypes,
+    ChatMemberHandler,
+)
 import asyncio
 import re
 import os
 
-TOKEN = os.getenv("TOKEN")  # Il token viene preso dalle variabili ambiente di Render
-
+TOKEN = os.getenv("TOKEN")
 utenti_in_attesa = {}
 
 async def nuovo_utente(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    for member in update.message.new_chat_members:
+    for member in update.chat_member.new_chat_members:
         user_id = member.id
         utenti_in_attesa[user_id] = update.effective_chat.id
 
@@ -40,7 +45,7 @@ async def ricevi_tag(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def main():
     app = ApplicationBuilder().token(TOKEN).build()
-    app.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, nuovo_utente))
+    app.add_handler(ChatMemberHandler(nuovo_utente, ChatMemberHandler.CHAT_MEMBER))
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), ricevi_tag))
 
     print("✅ Bot in esecuzione.")
