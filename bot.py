@@ -7,6 +7,7 @@ from telegram.ext import (
 )
 import os
 import re
+import asyncio
 
 TOKEN = os.getenv("TOKEN")
 utenti_in_attesa = {}
@@ -49,9 +50,4 @@ async def main():
     await app.run_polling()
 
 if __name__ == "__main__":
-    import asyncio
-    try:
-        asyncio.run(main())
-    except RuntimeError:
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(main())
+    asyncio.run(main())
