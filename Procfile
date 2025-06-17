@@ -1,1 +1,1 @@
-web: python keepalive.py & python bot.py
+web: python keepalive.py & python main.py
